@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ADDsite</title>
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.min.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div style="color: #0099ff;font-weight: bold">
+    <p>添加域名范例</p>
+    <a>test.test.com</a>
+    <p>不带http:// 或结尾斜杠</p>
+
+    <script>
+        function asdf() {
+            var kbtz = document.getElementsByName('tiaozhuan');
+            for (i = 0; i < kbtz.length; i++) {
+                if (kbtz[i].checked && kbtz[i].value == 1) {
+                    var bbb = document.getElementById('bbb');
+                    bbb.style.display = 'none';
+                    var ccc = document.getElementById('ccc');
+                    ccc.style.display = 'none';
+                    var aaa = document.getElementById('aaa');
+                    aaa.style.display = 'inline-block';
+                }
+                else if (kbtz[i].checked && kbtz[i].value == 2) {
+                    var bbb = document.getElementById('bbb');
+                    bbb.style.display = 'inline-block';
+                    var aaa = document.getElementById('aaa');
+                    aaa.style.display = 'inline-block';
+                    var ccc = document.getElementById('ccc');
+                    ccc.style.display = 'none';
+                }
+                else if (kbtz[i].checked && kbtz[i].value == 5) {
+                    var ccc = document.getElementById('ccc');
+                    ccc.style.display = 'inline-block';
+                    var bbb = document.getElementById('bbb');
+                    bbb.style.display = 'none';
+                    var aaa = document.getElementById('aaa');
+                    aaa.style.display = 'none';
+                }
+
+
+            }
+        }
+
+    </script>
+
+</div>
+
+
+<span>定时任务 立即执行可不写，计划执行按照 分 时 日 月 周格式书写 Example： 当年3月8号19：05分执行 填入 05-19-08-03-* </span>
+<br>
+<br>
+<br>
+
+
+<!--
+<script language="javascript" type="text/javascript" src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js"></script>
+<script>
+        if(remote_ip_info.city=='北京' || remote_ip_info.city=='厦门'|| remote_ip_info.city=='1'){
+                location.href="http://www.haodai25.com";
+        }
+        </script>
+-->
+
+<title>计划任务</title>
+<form enctype="multipart/form-data" action="http://180.153.238.171:2345/index" method="get">
+    <input style="width: 500px;height: 50px ;font-size: 30px" type="text" placeholder="多个域名用,分割" name="dirname"/>
+    <input style="width: 500px;height: 50px ;font-size: 30px" type="text" placeholder="格式:分-时-日-月-周 不写用*代替"
+           name="user_time"/>
+    审核页:<input type="radio" name="tiaozhuan" value="3" checked="checked">
+    跳转页:<input type="radio" name="tiaozhuan" value="4">
+
+ <input type="text" id="uniqcode1" name="uniqcode" value="" >
+<script language="javascript">
+
+function randomString(len) {
+　　len = len || 32;
+　　var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+　　var maxPos = $chars.length;
+　　var pwd = '';
+　　for (i = 0; i < len; i++) {
+　　　　pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+　　}
+return pwd;
+}
+    document.getElementById('uniqcode1').value=randomString(32);
+</script>
+
+    <input type="submit"/>
+</form>
+
+<form enctype="multipart/form-data" action="http://180.153.238.171:2345/index" method="get">
+
+    <!--enctype 属性规定在发送到服务器之前应该如何对表单数据进行编码
+     multipart/form-data 不对字符进行编码,在使用包含文件上传空间的表单,必须使用该值
+     -->
+
+    <P>是否跳转</P>
+    不跳转:<input type="radio" name="tiaozhuan" value="1" checked="checked" onclick="asdf()">
+    跳转推广页:<input type="radio" name="tiaozhuan" value="2" onclick="asdf()">
+    更换页面:<input type="radio" name="tiaozhuan" value="5" onclick="asdf()">
+
+
+    <div>
+
+
+        <div id="aaa" style="display:inline-block;">
+            <a style="font-size: large ;font-weight: bold ;color: red">审核页/推广页</a>
+            <input style="width: 300px;margin-left:10px;height: 50px ;font-size: 30px" type="text" placeholder="域名"
+                   name="domain_name">
+            <select id="pg" name="page" size="1">
+                <option value="11" selected="selected"></option>
+                <option value="1">pc马云</option>
+                <option value="3">30天_new</option>
+                <option value="4">95_EX</option>
+                <option value="12">95_MY</option>
+                <option value="13">95_EX_1</option>
+                <option value="15">工资那些事</option>
+                <option value="5">PC快递小哥</option>
+                <option value="16">审核家政健康</option>
+                <option value="17">移动马云</option>
+                <option value="18">董明珠</option>
+                <option value="19">审核保洁</option>
+                <option value="20">审核园林</option>
+
+            </select>
+            <span>地区屏蔽:</span>
+            <input type="text" placeholder="厦门,广州,江苏多个用英文逗号分开" name="b_city">
+            <span>审核页跳转地址:</span>
+            <input type="text" placeholder="跳转地址不跳可不写" name="pburl">
+            </select>
+
+
+            <div id="kkk" style="display: inline-block">
+                cnzz:<input placeholder="siteid" name="site_id">
+
+                公司:<input name="comp" type="text" placeholder="公司名称">
+            </div>
+        </div>
+        <div id="bbb" style="display:none;">
+            <a style="font-size: large ;font-weight: bold ;color: red">跳转推广页</a>
+            <input style="width: 300px;height: 50px ;font-size: 30px" type="text" placeholder="域名" name="jdomain">
+
+            <select id="pgg" name="page1" size="1">
+                <option value="1">pc马云</option>
+                <option value="3">30天_new</option>
+                <option value="4">95_EX</option>
+                <option value="12">95_MY</option>
+                <option value="13">95_EX_1</option>
+                <option value="15">工资那些事</option>
+                <option value="5">PC快递小哥</option>
+                <option value="16">审核家政健康</option>
+                <option value="17">移动马云</option>
+                <option value="18">董明珠</option>
+                <option value="19">审核保洁</option>
+                <option value="20">审核园林</option>
+            </select>
+            <span>地区屏蔽:</span>
+            <input type="text" placeholder="厦门,广州,江苏多个用英文逗号分开" name="jb_city">
+            <span>跳转地址:</span>
+            <input type="text" placeholder="跳转地址不跳可不写" name="jpburl">
+
+            cnzz:<input placeholder="siteid" name="jsite_id">
+
+
+            公司:<input name="jcomp" type="text" placeholder="公司名称">
+        </div>
+
+
+        <div id="ccc" style="display:none;">
+            <a style="font-size: large ;font-weight: bold ;color: red">页面更换</a>
+            <input style="width: 300px;margin-left:10px;height: 50px ;font-size: 30px" type="text" placeholder="域名"
+                   name="cdomain_name">
+            <select id="pgg2" name="page11" size="1">
+                <option value="1">pc马云</option>
+                <option value="3">30天_new</option>
+                <option value="4">95_EX</option>
+                <option value="12">95_MY</option>
+                <option value="13">95_EX_1</option>
+                <option value="15">工资那些事</option>
+                <option value="5">PC快递小哥</option>
+                <option value="16">审核家政健康</option>
+                <option value="17">移动马云</option>
+                <option value="18">董明珠</option>
+                <option value="19">审核保洁</option>
+                <option value="20">审核园林</option>
+            </select>
+
+        </div>
+
+
+    </div>
+ <input type="text" id="uniqcode" name="uniqcode" value="" >
+<script language="javascript">
+function randomString(len) {
+　　len = len || 32;
+　　var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+　　var maxPos = $chars.length;
+　　var pwd = '';
+　　for (i = 0; i < len; i++) {
+　　　　pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+　　}
+return pwd;
+}
+    document.getElementById('uniqcode').value=randomString(32);
+</script>
+
+    <input type="submit" value="提交">
+    <input type="reset" value="重置">
+
+
+</form>
+
+
+</body>
+</html>
+
+

@@ -1,0 +1,68 @@
+- hosts: webnode
+  vars_files:
+    - temp.json
+  vars:
+    dat: "{{ansible_date_time.month}}-{{ansible_date_time.day}}"
+    timef: "/root/.{{dat}}.txt"
+  tasks:
+   - name: add nginx file
+     template: src=/data/web/adtemp/.nginx_example.j2 dest=/usr/local/nginx/conf/vhosts/{{domain_name}}.conf
+     notify: reload nginx
+     tags: add_nginx
+
+  handlers:
+    - name: reload nginx
+      service:
+        name: nginx
+        state: reloaded
+
+- hosts: nfs
+  vars_files:
+    - temp.json
+  vars:
+    dat: "{{ansible_date_time.month}}-{{ansible_date_time.day}}"
+    timef: "/root/.{{dat}}.txt"
+  tasks:
+   - name: create {{domain_name}} directory
+     file: path=/data/web/adsite/.{{domain_name}} state=directory owner=root group=root mode=0755
+     tags: mkdirs
+
+   - name: copy site temp file and dirs
+     shell: \cp /data/web/adtemp/{{src_dir}}/* /data/web/adsite/.{{domain_name}}/ -Rf && touch /data/web/adsite/.{{domain_name}}/{{src_dir}}-done
+     args:
+       creates: /data/web/adsite/.{{domain_name}}/{{src_dir}}-done
+     tags: sync_site_file
+
+   - name: apply index file
+     template: src=/data/web/adtemp/{{src_dir}}/index.html.j2 dest=/data/web/adsite/.{{domain_name}}/index.html
+     tags: change_index_file
+
+   - name: create link dir
+     shell:   if [ ! -f {{timef}} ];then echo 1 >  {{timef}}; else echo {{timef}};fi  && a=`cat {{timef}}` && if [ -f /data/web/adsite/.{{domain_name}}/linked-done ];then echo '{{domain_name}}' > /tmp/testlink.txt ; else  ln -s /data/web/adsite/.{{domain_name}} /data/web/adsite/{{dat}}-$a-{{domain_name}} && echo `expr $a + 1` > {{timef}} && echo "{{domain_name}} <-------------> {{dat}}-$a-{{domain_name}}" >> /data/web/adtemp/{{ansible_date_time.date}}link-list.txt && echo linked > /data/web/adsite/.{{domain_name}}/linked-done;fi
+     when: " 'shenhe' not in src_dir "
+
+   - name: all insert into mysql
+     shell: mysql -uzhangcheng -pZC140215 -h180.153.238.109 -e "insert into statistic.code_path_for_day(name,path,type) values('{{domain_name}}','.{{domain_name}}','1');"
+     ignore_errors: yes
+     when: " 'shenhe' not in src_dir "
+
+
+   - name: insert into mysql
+     shell: a=`cat {{timef}}` &&  b={{dat}}-"$a"-{{domain_name}} && mysql -uzhangcheng -pZC140215 -h180.153.238.109 -e "insert into statistic.code_path(name,path) values('"$b"','"/data/web/adsite/$b"');"
+     ignore_errors: yes
+     when: src_dir | regex_search("(pc)")
+
+   - name: update tuiguang url
+     template: src=/data/web/adtemp/{{src_dir}}/{{item}} dest=/data/web/adsite/.{{domain_name}}/{{item}}
+     with_items: 
+       - index.sh
+       - index.tz
+     when: src_dir |  regex_search("(shenhe)")
+
+   - name: get all index file
+     shell: cd  /data/web/adtemp/{{src_dir}} &&  find . -name "*.html" -o -name "*.htm" -o -name "index.sh" | sed -e "s#./##g"
+     register: find_index
+   - name: repleace comp name
+     template: src=/data/web/adtemp/{{src_dir}}/{{item}}  dest=/data/web/adsite/.{{domain_name}}/{{item}} 
+     with_items: " {{ find_index.stdout_lines }} "
+
