@@ -48,7 +48,7 @@
 
 
    - name: insert into mysql
-     shell: a=`cat {{timef}}` &&  b={{dat}}-"$a"-{{domain_name}} && mysql -uzhangcheng -pZC140215 -h180.153.238.109 -e "insert into statistic.code_path(name,path) values('"$b"','"/data/web/adsite/$b"');"
+     shell: a=`cat {{timef}}` &&  b={{dat}}-"$a"-{{domain_name}} && mysql -uzhangcheng -pZC140215 -h180.153.238.*** -e "insert into statistic.code_path(name,path) values('"$b"','"/data/web/adsite/$b"');"
      ignore_errors: yes
      when: src_dir | regex_search("(pc)")
 
